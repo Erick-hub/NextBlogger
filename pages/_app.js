@@ -2,16 +2,19 @@ import '../styles/globals.css'
 import Navbar from '../components/Navbar'
 import {Toaster} from 'react-hot-toast'
 import {UserContext} from '../lib/context'
-import { createContext } from 'react/cjs/react.development'
 
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useUserData } from '../lib/hooks'
+import Button from '../components/button'
 
 
 function MyApp({ Component, pageProps }) {
+  const userData= useUserData()
+
   return (
   
-    <UserContext.Provider value={{user:{},username:'beeg'}}>
+    <UserContext.Provider value={userData}>
       
       <Navbar/>
       <Component {...pageProps} />
