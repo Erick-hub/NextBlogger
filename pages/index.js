@@ -1,13 +1,10 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { useState } from "react";
-import { useEffect, createContext, useContext, useRef } from "react";
-import { Loader, PostFeed } from "../components/Loader";
+import Loader from "../components/Loader";
+import PostFeed from "../components/PostFeed";
 import { firestore, fromMillis, postToJSON } from "../lib/firebase";
 
 const LIMIT = 1;
-export async function getServersideProps(context) {
+export async function getServerSideProps(context) {
   const postsQuery = firestore
     .collectionGroup("posts")
     .where("published", "==", true)
@@ -27,51 +24,42 @@ export default function Home(props) {
   const [postsEnd, setPostsEnd] = useState(false);
 
   const getMorePosts = async () => {
-    // setLoading(true);
-    // const last = posts[posts.length - 1];
+    setLoading(true);
+    const last = posts[posts.length - 1];
 
-    // const cursor =
-    //   typeof last.createdAt === "number"
-    //     ? fromMillis(last.createdAt)
-    //     : last.createdAt;
+    const cursor =
+      typeof last.createdAt === "number"
+        ? fromMillis(last.createdAt)
+        : last.createdAt;
 
-    // const query = firestore
-    //   .collectionGroup("posts")
-    //   .where("published", "==", true)
-    //   .orderBy("createdAt", "desc")
-    //   .startAfter(cursor)
-    //   .limit(LIMIT);
-
-    // const newPosts = (await query.get()).docs.map((doc) => doc.data());
-
-    // setPosts(posts.concat(newPosts));
-    // setLoading(false);
-
-    // if (newPosts.length < LIMIT) {
-    //   setPostsEnd(true);
-    // }
-    const postsQuery = firestore
+    const query = firestore
       .collectionGroup("posts")
       .where("published", "==", true)
       .orderBy("createdAt", "desc")
+      .startAfter(cursor)
       .limit(LIMIT);
 
-    const incomingPost = (await postsQuery.get()).docs.map(postToJSON);
+    const newPosts = (await query.get()).docs.map((doc) => doc.data());
 
-    console.log(incomingPost);
+    setPosts(posts.concat(newPosts));
+    setLoading(false);
+
+    if (newPosts.length < LIMIT) {
+      setPostsEnd(true);
+    }
   };
 
   return (
     <main>
-      {/* <PostFeed posts={posts} />
-      {!loading && !postsEnd && (
-        <button onClick={getMorePosts}>Load More</button>
-      )}
-      <Loader show={loading}></Loader>
-
-      {postsEnd && "You have reached the end!"} */}
       <PostFeed posts={posts} />
-      <button onClick={getMorePosts}>Load More</button>
+
+      {!loading && !postsEnd && (
+        <button onClick={getMorePosts}>Load more</button>
+      )}
+
+      <Loader show={loading} />
+
+      {postsEnd && "You have reached the end!"}
     </main>
   );
 }
