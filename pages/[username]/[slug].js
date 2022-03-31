@@ -1,5 +1,6 @@
 import PostContent from "../../components/PostContent";
 import { firestore, getUserWithUsername, postToJSON } from "../../lib/firebase";
+import AuthCheck from "../../components/AuthCheck";
 
 export async function getStaticProps({ param }) {
   const { username, slug } = params;
@@ -35,32 +36,22 @@ export async function getStaticPaths() {
   };
 }
 
-export default function PostPage({}) {
+export default function Post(props) {
+  const postRef = firestore.doc(props.path);
+  const [realtimePost] = useDocumentData(postRef);
+
+  const post = realtimePost || props.post;
+
   return (
-    <main>
-      <h1>User Profile</h1>
+    <main className={styles.container}>
+      <section>
+        <PostContent post={post} />
+      </section>
+      <aside className="card">
+        <p>
+          <strong>{post.heartCount || 0} 🤍</strong>
+        </p>
+      </aside>
     </main>
   );
 }
-
-// export default function Post(props){
-//   const postRef=firestore.doc(props.path);
-//   const [realtimePost]= useDocumentData(postRef);
-
-//   const post= realtimePost || props.post;
-
-//   return(
-//     <main className={styles.container}>
-//       <section>
-//         <PostContent post={post}/>
-//       </section>
-//       <aside className="card">
-
-//         <p>
-//           <strong>{post.heartCount || 0}🤍</strong>
-//         </p>
-
-//       </aside>
-// //     </main>
-// //   )
-// }
