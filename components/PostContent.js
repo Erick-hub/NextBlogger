@@ -11,9 +11,9 @@ export default function PostContent({ post }) {
     <div className="card">
       <h1>{post.title}</h1>
       <span className="text-sm">
-        Written by{""}
+        Written by {""}
         <Link href={`/${post.username}`}>
-          <a className="text-info">@{post.username}</a>
+          <a className="text-info">@{post.username} </a>
         </Link>
         on {createdAt.toISOString()}
       </span>
