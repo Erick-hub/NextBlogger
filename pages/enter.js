@@ -3,7 +3,6 @@ import { UserContext } from "../lib/context";
 import { useCallback, useContext } from "react";
 import { useEffect, useState } from "react/cjs/react.development";
 import debounce from "lodash.debounce";
-
 export default function Enter(props) {
   const { user, username } = useContext(UserContext);
   // 1. user signed out <SignInButton />

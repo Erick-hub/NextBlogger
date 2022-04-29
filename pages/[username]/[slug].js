@@ -1,12 +1,13 @@
 import styles from "../../styles/Post.module.css";
 import PostContent from "../../components/PostContent";
 import { firestore, getUserWithUsername, postToJSON } from "../../lib/firebase";
-import { AuthCheck } from "../../components/AuthCheck";
+import AuthCheck from "../../components/AuthCheck";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { Link } from "next/link";
-import { HeartButton } from "../../components/HeartButton";
+import Link from "next/link";
+import HeartButton from "../../components/HeartButton";
 import { UserContext } from "../../lib/context";
 import { useContext } from "react";
+
 export async function getStaticProps({ params }) {
   const { username, slug } = params;
 

@@ -7,9 +7,10 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 import { useDocumentData } from "react-firebase-hooks/firestore";
+
 import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
-import Link from "next/link";
+
 import toast from "react-hot-toast";
 
 export default function AdminPostEdit(props) {
@@ -53,9 +54,6 @@ function PostManager() {
             <button onClick={() => setPreview(!preview)}>
               {preview ? "Edit" : "Preview"}
             </button>
-            <Link href={`/${post.username}/${post.slug}`}>
-              <button className="btn-blue">Live view</button>
-            </Link>
           </aside>
         </>
       )}
