@@ -6,7 +6,7 @@ import { UserContext } from "../../lib/context";
 import { firestore, auth, serverTimestamp } from "../../lib/firebase";
 
 import { useCollection } from "react-firebase-hooks/firestore";
-import { kebabCase } from "lodash";
+import kebabCase from "lodash.kebabcase";
 import toast from "react-hot-toast";
 
 import { useContext, useState } from "react";
@@ -83,10 +83,10 @@ function CreateNewPost() {
         placeholder="My New Article!"
         className={styles.input}
       />
-      <p>
+      {/* <p>
         <strong>Slug:</strong>
         {slug}
-      </p>
+      </p> */}
       <button type="submit" disabled={!isValid} className="btn-green">
         {" "}
         Create New Post
