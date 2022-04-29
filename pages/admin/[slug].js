@@ -114,7 +114,7 @@ function PostForm({ defaultValues, postRef, preview }) {
             className={styles.checkbox}
             name="published"
             type="checkbox"
-            {...register("published", { required: true })}
+            {...register("published", { required: false })}
           />
           <label>Published</label>
         </fieldset>
